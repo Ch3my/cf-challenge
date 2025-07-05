@@ -1,11 +1,10 @@
 import React from 'react';
 import { Calendar, FileSearch } from 'lucide-react';
 import { DateTime } from 'luxon';
+import { fetchBookingsByRoomingListId } from '../lib/api';
 
 type EventCardProps = {
-    //   rooming_list_id: number;
-    //   event_id: number;
-    //   hotel_id: number;
+    rooming_list_id: number;
     rfp_name: string;
     cut_off_date: string;
     status: string;
@@ -16,6 +15,7 @@ type EventCardProps = {
 };
 
 const EventCard: React.FC<EventCardProps> = ({
+    rooming_list_id,
     rfp_name,
     cut_off_date,
     agreement_type,
@@ -30,6 +30,15 @@ const EventCard: React.FC<EventCardProps> = ({
     const startDate = event_start ? DateTime.fromISO(event_start) : DateTime.local(2025, 1, 31);
     const endDate = event_end ? DateTime.fromISO(event_end) : DateTime.local(2025, 2, 2);
     const eventDates = `${startDate.toFormat('MMM d')} – ${endDate.toFormat('MMM d, yyyy')}`;
+
+    const handleViewBookings = async () => {
+        try {
+            const bookings = await fetchBookingsByRoomingListId(rooming_list_id);
+            console.log(`Bookings for Rooming List ${rooming_list_id}:`, bookings);
+        } catch (error) {
+            console.error(`Failed to fetch bookings for Rooming List ${rooming_list_id}:`, error);
+        }
+    };
 
     return (
         <div className="min-w-sm flex flex-col bg-white rounded-md p-4 border border-gray-200 gap-4">
@@ -53,11 +62,14 @@ const EventCard: React.FC<EventCardProps> = ({
                 {eventDates}
             </div>
             <div className='grid grid-cols-6 gap-2'>
-                <button className=" col-span-5 bg-[#4323ff] hover:bg-[#3719e5] text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center whitespace-nowrap">
+                <button
+                    onClick={handleViewBookings}
+                    className=" col-span-5 bg-[#4323ff] hover:bg-[#3719e5] text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center whitespace-nowrap"
+                >
                     View Bookings ({booking_count})
                 </button>
-                <button className='flex items-center justify-center border rounded-md border-gray-200 hover:bg-[#edebff]'>
-                    <FileSearch />
+                <button className='flex items-center justify-center border rounded-md border-gray-200 hover:bg-gray-50'>
+                    <FileSearch color='#4323ff' />
                 </button>
             </div>
         </div>

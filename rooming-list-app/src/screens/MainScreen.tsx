@@ -86,6 +86,9 @@ const MainScreen = () => {
             }),
         }));
 
+        // Filter out events that have no rooming lists after filtering
+        currentData = currentData.filter((event: any) => event.rooming_lists.length > 0);
+
         return currentData;
     }, [data, searchTerm, activeFilters, sortOption]);
 
@@ -103,7 +106,7 @@ const MainScreen = () => {
                     <div key={event.event_id}>
                         <div className="flex items-center justify-center gap-4 mb-4">
                             <div className="flex-1 h-px bg-gradient-to-l from-teal-400/50 to-transparent" />
-                            <div className="px-3 py-1 border border-teal-400 text-teal-600 font-semibold rounded-md bg-teal-50">
+                            <div className="px-3 py-1 border border-teal-400 text-teal-600 font-semibold rounded-md bg-teal-100">
                                 {event.event_name}
                             </div>
                             <div className="flex-1 h-px bg-gradient-to-r from-teal-400/50 to-transparent" />
@@ -112,6 +115,7 @@ const MainScreen = () => {
                             {event.rooming_lists.map((o: any) => (
                                 <div key={o.rooming_list_id}>
                                     <EventCard
+                                        rooming_list_id={o.rooming_list_id}
                                         rfp_name={o.rfp_name}
                                         cut_off_date={o.cut_off_date}
                                         status={o.status}

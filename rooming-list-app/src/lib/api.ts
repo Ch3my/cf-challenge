@@ -95,6 +95,21 @@ const fetchBookings = async (): Promise<Booking[]> => {
     }
 }
 
+const fetchBookingsByRoomingListId = async (roomingListId: number): Promise<Booking[]> => {
+    const apiToken = await login();
+    try {
+        const response = await axios.get<Booking[]>(`${API_BASE_URL}/rooming-lists/${roomingListId}/bookings`, {
+            headers: {
+                'Authorization': `Bearer ${apiToken}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching bookings for rooming list ${roomingListId}:`, error);
+        return [];
+    }
+};
+
 const fetchAndMixData = async () => {
   const roomingLists = await fetchRoomingLists();
   const roomingListsBookings = await fetchRoomingListsBookings();
@@ -214,4 +229,4 @@ const importData = async (): Promise<{ success: boolean; error?: string }> => {
     }
 };
 
-export { login, fetchRoomingLists, importData, fetchAndMixData }
+export { login, fetchRoomingLists, importData, fetchAndMixData, fetchBookingsByRoomingListId }
