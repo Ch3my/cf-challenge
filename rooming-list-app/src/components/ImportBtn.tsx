@@ -13,11 +13,10 @@ const ImportBtn = ({ onImportDone }: ImportBtnProps) => {
     <button
       className="
         px-6 py-3
-        text-base font-semibold
         border
         bg-white
         border-gray-200
-        hover:bg-purple-50
+        hover:bg-gray-50
         text-gray-500        
         rounded-md
         focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75

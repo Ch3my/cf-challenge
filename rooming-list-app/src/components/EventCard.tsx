@@ -41,9 +41,9 @@ const EventCard: React.FC<EventCardProps> = ({
                     </span>
                 </div>
                 <div className='flex flex-col items-center'>
-                    <div className="bg-blue-100 rounded-md px-2 py-1 text-center w-12">
-                        <div className="text-xs text-blue-600 font-bold">{cutOffMonth}</div>
-                        <div className="text-lg font-semibold text-blue-800 leading-none">{cutOffDay}</div>
+                    <div className="bg-blue-100 rounded-md text-center w-12">
+                        <div className="text-xs py-0.5 text-blue-600 bg-blue-200 rounded-t-md font-semibold">{cutOffMonth}</div>
+                        <div className="text-lg py-1 font-bold text-blue-600 leading-none">{cutOffDay}</div>
                     </div>
                     <span className='text-xs text-gray-500 mt-1'>Cut-Off Date</span>
                 </div>
@@ -53,10 +53,10 @@ const EventCard: React.FC<EventCardProps> = ({
                 {eventDates}
             </div>
             <div className='grid grid-cols-6 gap-2'>
-                <button className=" col-span-5 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center whitespace-nowrap">
+                <button className=" col-span-5 bg-[#4323ff] hover:bg-[#3719e5] text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center whitespace-nowrap">
                     View Bookings ({booking_count})
                 </button>
-                <button className='flex items-center justify-center border rounded-md'>
+                <button className='flex items-center justify-center border rounded-md border-gray-200 hover:bg-[#edebff]'>
                     <FileSearch />
                 </button>
             </div>

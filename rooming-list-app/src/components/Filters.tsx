@@ -1,16 +1,14 @@
 import { SlidersHorizontal } from 'lucide-react';
 import { useState } from 'react';
+import useStore from '../stores/UseStore';
 
 // Main App component
 const Filters = () => {
     // State to manage the visibility of the filter dropdown
     const [isOpen, setIsOpen] = useState(false);
-    // State to manage the selected filter options
-    const [filters, setFilters] = useState({
-        active: false,
-        closed: true, // 'Closed' is pre-selected based on the image
-        canceled: false,
-    });
+    // Get filters and setFilters from the store
+    const activeFilters = useStore((state) => state.activeFilters);
+    const setFilters = useStore((state) => state.setFilters);
 
     // Function to toggle the filter dropdown visibility
     const toggleDropdown = () => {
@@ -18,17 +16,16 @@ const Filters = () => {
     };
 
     // Function to handle checkbox changes
-    const handleCheckboxChange = (event: any) => {
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = event.target;
-        setFilters((prevFilters) => ({
-            ...prevFilters,
+        setFilters({
+            ...activeFilters,
             [name]: checked,
-        }));
+        });
     };
 
     // Function to handle the save action
     const handleSave = () => {
-        console.log('Filters saved:', filters);
         setIsOpen(false); // Close the dropdown after saving
     };
 
@@ -37,10 +34,10 @@ const Filters = () => {
             {/* Filters button */}
             <button
                 onClick={toggleDropdown}
-                className="flex items-center px-6 py-3 bg-white text-purple-700 font-semibold rounded border border-purple-300 hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
+                className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 font-semibold rounded border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
             >
                 Filters
-<SlidersHorizontal />
+                <SlidersHorizontal color='#00c2a6' />
             </button>
 
             {/* Filter dropdown content */}
@@ -49,48 +46,48 @@ const Filters = () => {
                     <h3 className="text-xs font-semibold uppercase text-gray-500 mb-4 tracking-wider">
                         RFP STATUS
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                         {/* Active checkbox */}
-                        <label className="flex items-center cursor-pointer">
+                        <label className="flex items-center cursor-pointer gap-2">
                             <input
                                 type="checkbox"
                                 name="active"
-                                checked={filters.active}
+                                checked={activeFilters.active}
                                 onChange={handleCheckboxChange}
-                                className="form-checkbox h-5 w-5 text-purple-600 rounded border-gray-300 focus:ring-purple-500 transition duration-150 ease-in-out"
+                                className="form-checkbox h-5 w-5 rounded border border-gray-300 checked:bg-[#00c2a6] text-white transition duration-150 ease-in-out appearance-none relative"
                             />
-                            <span className="ml-3 text-gray-800 text-lg font-medium">Active</span>
+                            <span className="text-gray-800 text-lg font-medium">Active</span>
                         </label>
 
                         {/* Closed checkbox */}
-                        <label className="flex items-center cursor-pointer">
+                        <label className="flex items-center cursor-pointer gap-2">
                             <input
                                 type="checkbox"
                                 name="closed"
-                                checked={filters.closed}
+                                checked={activeFilters.closed}
                                 onChange={handleCheckboxChange}
-                                className="form-checkbox h-5 w-5 text-purple-600 rounded border-gray-300 focus:ring-purple-500 transition duration-150 ease-in-out"
+                                className="form-checkbox h-5 w-5 rounded border border-gray-300 checked:bg-[#00c2a6] text-white transition duration-150 ease-in-out appearance-none relative"
                             />
-                            <span className="ml-3 text-gray-800 text-lg font-medium">Closed</span>
+                            <span className="text-gray-800 text-lg font-medium">Closed</span>
                         </label>
 
                         {/* Canceled checkbox */}
-                        <label className="flex items-center cursor-pointer">
+                        <label className="flex items-center cursor-pointer gap-2">
                             <input
                                 type="checkbox"
                                 name="canceled"
-                                checked={filters.canceled}
+                                checked={activeFilters.canceled}
                                 onChange={handleCheckboxChange}
-                                className="form-checkbox h-5 w-5 text-purple-600 rounded border-gray-300 focus:ring-purple-500 transition duration-150 ease-in-out"
+                                className="form-checkbox h-5 w-5 rounded border border-gray-300 checked:bg-[#00c2a6] text-white transition duration-150 ease-in-out appearance-none relative"
                             />
-                            <span className="ml-3 text-gray-800 text-lg font-medium">Canceled</span>
+                            <span className="text-gray-800 text-lg font-medium">Canceled</span>
                         </label>
                     </div>
 
                     {/* Save button */}
                     <button
                         onClick={handleSave}
-                        className="mt-6 w-full bg-purple-700 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
+                        className="mt-6 w-full bg-[#4323ff] hover:bg-[#3719e5] text-white font-semibold py-3 rounded-xl shadow-md focus:outline-none focus:ring-2 transition duration-200 ease-in-out"
                     >
                         Save
                     </button>

@@ -1,45 +1,41 @@
 import React, { useState, useEffect, useRef, useCallback, type ChangeEvent } from 'react';
 import { Search } from 'lucide-react';
 
+import useStore from '../stores/UseStore';
+
 interface SearchInputWithDebounceProps {
-    onSearch: (query: string) => void;
+    onSearch?: (query: string) => void;
 }
 
 const SearchInputWithDebounce: React.FC<SearchInputWithDebounceProps> = ({ onSearch }) => {
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('');
+    const setSearchTermInStore = useStore((state) => state.setSearchTerm);
+    const searchTerm = useStore((state) => state.searchTerm);
+    const setSearchTerm = useStore((state) => state.setSearchTerm);
 
     const debounceTimeoutRef = useRef<number | null>(null);
 
-    const debounce = useCallback((value: string, delay: number) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSearchTerm(value); // Update the store immediately
+
         if (debounceTimeoutRef.current) {
             clearTimeout(debounceTimeoutRef.current);
         }
 
         debounceTimeoutRef.current = setTimeout(() => {
-            setDebouncedSearchTerm(value);
-        }, delay);
-    }, []);
+            if (onSearch) {
+                onSearch(value); // Optional: if there's still a need for an immediate callback
+            }
+        }, 500); // Debounce for 500ms
+    };
 
     useEffect(() => {
-        debounce(searchTerm, 500);
-
         return () => {
             if (debounceTimeoutRef.current) {
                 clearTimeout(debounceTimeoutRef.current);
             }
         };
-    }, [searchTerm, debounce]);
-
-    useEffect(() => {
-        if (debouncedSearchTerm !== '' && onSearch) {
-            onSearch(debouncedSearchTerm);
-        }
-    }, [debouncedSearchTerm, onSearch]);
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-    };
+    }, []);
 
     return (
         <div className="relative flex items-center max-2-sm bg-white rounded border border-gray-200 focus-within:border-violet-800 focus-within:ring-1 focus-within:ring-violet-800 transition-all duration-200">
