@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('rooming_lists')
 export class RoomingList {
-  @PrimaryGeneratedColumn()
+  @Column({ primary: true })
   rooming_list_id: number;
 
   @Column()
@@ -13,6 +13,9 @@ export class RoomingList {
 
   @Column()
   rfp_name: string;
+
+  @Column()
+  event_name: string;
 
   @Column()
   cut_off_date: Date;

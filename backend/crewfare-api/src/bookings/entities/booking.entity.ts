@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('bookings')
 export class Booking {
-  @PrimaryGeneratedColumn()
+  @Column({ primary: true })
   booking_id: number;
 
   @Column()
