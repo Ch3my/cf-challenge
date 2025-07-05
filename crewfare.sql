@@ -5,7 +5,7 @@
 -- Dumped from database version 17.5 (Debian 17.5-1.pgdg120+1)
 -- Dumped by pg_dump version 17.5
 
--- Started on 2025-07-03 14:50:25
+-- Started on 2025-07-05 17:12:25
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,273 +19,92 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
-
 --
--- TOC entry 220 (class 1259 OID 16524)
--- Name: bookings; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.bookings (
-    booking_id integer NOT NULL,
-    hotel_id integer NOT NULL,
-    event_id integer NOT NULL,
-    guest_name character varying(255) NOT NULL,
-    guest_phone_number character varying(20),
-    check_in_date date NOT NULL,
-    check_out_date date NOT NULL
-);
-
-
-ALTER TABLE public.bookings OWNER TO postgres;
-
---
--- TOC entry 219 (class 1259 OID 16523)
--- Name: bookings_booking_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.bookings_booking_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.bookings_booking_id_seq OWNER TO postgres;
-
---
--- TOC entry 3391 (class 0 OID 0)
--- Dependencies: 219
--- Name: bookings_booking_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.bookings_booking_id_seq OWNED BY public.bookings.booking_id;
-
-
---
--- TOC entry 222 (class 1259 OID 16531)
--- Name: rooming_list_bookings; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.rooming_list_bookings (
-    rooming_list_booking_id integer NOT NULL,
-    rooming_list_id integer NOT NULL,
-    booking_id integer NOT NULL
-);
-
-
-ALTER TABLE public.rooming_list_bookings OWNER TO postgres;
-
---
--- TOC entry 221 (class 1259 OID 16530)
--- Name: rooming_list_bookings_rooming_list_booking_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.rooming_list_bookings_rooming_list_booking_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.rooming_list_bookings_rooming_list_booking_id_seq OWNER TO postgres;
-
---
--- TOC entry 3392 (class 0 OID 0)
--- Dependencies: 221
--- Name: rooming_list_bookings_rooming_list_booking_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.rooming_list_bookings_rooming_list_booking_id_seq OWNED BY public.rooming_list_bookings.rooming_list_booking_id;
-
-
---
--- TOC entry 218 (class 1259 OID 16515)
--- Name: rooming_lists; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.rooming_lists (
-    rooming_list_id integer NOT NULL,
-    event_id integer NOT NULL,
-    hotel_id integer NOT NULL,
-    rfp_name character varying(255) NOT NULL,
-    cut_off_date date NOT NULL,
-    status character varying(50) NOT NULL,
-    agreement_type character varying(50) NOT NULL,
-    CONSTRAINT rooming_lists_agreement_type_check CHECK (((agreement_type)::text = ANY ((ARRAY['leisure'::character varying, 'staff'::character varying, 'artist'::character varying])::text[]))),
-    CONSTRAINT rooming_lists_status_check CHECK (((status)::text = ANY ((ARRAY['Active'::character varying, 'Closed'::character varying, 'Cancelled'::character varying])::text[])))
-);
-
-
-ALTER TABLE public.rooming_lists OWNER TO postgres;
-
---
--- TOC entry 217 (class 1259 OID 16514)
--- Name: rooming_lists_rooming_list_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.rooming_lists_rooming_list_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.rooming_lists_rooming_list_id_seq OWNER TO postgres;
-
---
--- TOC entry 3393 (class 0 OID 0)
+-- TOC entry 3370 (class 0 OID 16389)
 -- Dependencies: 217
--- Name: rooming_lists_rooming_list_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.rooming_lists_rooming_list_id_seq OWNED BY public.rooming_lists.rooming_list_id;
-
-
---
--- TOC entry 3221 (class 2604 OID 16527)
--- Name: bookings booking_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.bookings ALTER COLUMN booking_id SET DEFAULT nextval('public.bookings_booking_id_seq'::regclass);
-
-
---
--- TOC entry 3222 (class 2604 OID 16534)
--- Name: rooming_list_bookings rooming_list_booking_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.rooming_list_bookings ALTER COLUMN rooming_list_booking_id SET DEFAULT nextval('public.rooming_list_bookings_rooming_list_booking_id_seq'::regclass);
-
-
---
--- TOC entry 3220 (class 2604 OID 16518)
--- Name: rooming_lists rooming_list_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.rooming_lists ALTER COLUMN rooming_list_id SET DEFAULT nextval('public.rooming_lists_rooming_list_id_seq'::regclass);
-
-
---
--- TOC entry 3383 (class 0 OID 16524)
--- Dependencies: 220
 -- Data for Name: bookings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.bookings (booking_id, hotel_id, event_id, guest_name, guest_phone_number, check_in_date, check_out_date) FROM stdin;
+1	101	1	John Doe	1234567890	2025-09-01 00:00:00	2025-09-05 00:00:00
+2	101	1	Alice Smith	2345678901	2025-09-02 00:00:00	2025-09-06 00:00:00
+3	101	1	Bob Johnson	3456789012	2025-09-03 00:00:00	2025-09-07 01:00:00
+4	101	1	Sarah Lee	4567890123	2025-09-05 00:00:00	2025-09-10 00:00:00
+5	101	1	David Brown	5678901234	2025-09-06 00:00:00	2025-09-11 00:00:00
+6	101	1	Emily White	6789012345	2025-09-07 01:00:00	2025-09-12 00:00:00
+7	101	1	Michael Black	7890123456	2025-09-08 00:00:00	2025-09-13 00:00:00
+8	101	2	Lisa Green	8901234567	2025-09-15 00:00:00	2025-09-20 00:00:00
+9	101	2	Paul Gray	9012345678	2025-09-16 00:00:00	2025-09-21 00:00:00
+10	101	2	Tom Harris	0123456789	2025-09-25 00:00:00	2025-09-30 00:00:00
+11	101	2	Anna Clark	1234567890	2025-09-26 00:00:00	2025-09-30 00:00:00
+12	101	2	George King	2345678901	2025-10-01 00:00:00	2025-10-05 00:00:00
+13	101	2	Jessica Allen	3456789012	2025-10-02 00:00:00	2025-10-06 00:00:00
+14	101	2	Gilliam King	3456789012	2025-10-02 00:00:00	2025-10-06 00:00:00
+15	101	2	Natalia Fernandez	(805) 440-2313	2025-04-02 00:00:00	2025-05-20 00:00:00
+16	101	2	Campbell Raymond	(910) 581-3774	2025-04-15 00:00:00	2025-05-13 00:00:00
+17	101	2	Rhodes Charles	(882) 559-2902	2025-04-12 00:00:00	2025-05-17 00:00:00
+18	101	2	Mejia Ferguson	(842) 592-3410	2025-03-25 00:00:00	2025-05-10 00:00:00
+19	101	2	Dominique Ayers	(805) 546-3313	2025-04-03 00:00:00	2025-05-11 00:00:00
 \.
 
 
 --
--- TOC entry 3385 (class 0 OID 16531)
--- Dependencies: 222
+-- TOC entry 3371 (class 0 OID 16393)
+-- Dependencies: 218
 -- Data for Name: rooming_list_bookings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.rooming_list_bookings (rooming_list_booking_id, rooming_list_id, booking_id) FROM stdin;
+191	1	1
+192	1	2
+193	1	3
+194	2	4
+195	2	5
+196	3	6
+197	3	7
+198	4	8
+199	4	9
+200	5	10
+201	5	11
+202	6	12
+203	6	13
+204	7	14
+205	7	15
+206	7	16
+207	8	17
+208	8	18
+209	8	19
 \.
 
 
 --
--- TOC entry 3381 (class 0 OID 16515)
--- Dependencies: 218
+-- TOC entry 3373 (class 0 OID 16397)
+-- Dependencies: 220
 -- Data for Name: rooming_lists; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.rooming_lists (rooming_list_id, event_id, hotel_id, rfp_name, cut_off_date, status, agreement_type) FROM stdin;
+COPY public.rooming_lists (rooming_list_id, event_id, hotel_id, rfp_name, cut_off_date, status, agreement_type, event_name) FROM stdin;
+1	1	101	ACL-2025	2025-09-30 00:00:00	completed	leisure	Rolling Loud
+2	1	101	ACL-2025	2025-09-30 00:00:00	received	staff	Rolling Loud
+3	1	101	ACL-2024	2024-09-30 00:00:00	archived	leisure	Rolling Loud
+4	2	101	RLM-2025	2025-09-30 00:00:00	completed	leisure	Ultra Miami
+5	2	101	RLM-2025	2025-10-15 00:00:00	completed	staff	Ultra Miami
+6	2	101	RLM-2025	2025-10-15 00:00:00	Confirmed	leisure	Ultra Miami
+7	2	101	RLM-2026	2026-10-25 00:00:00	received	leisure	Ultra Miami
+8	2	101	RLM-2026	2026-10-25 00:00:00	received	staff	Ultra Miami
 \.
 
 
 --
--- TOC entry 3394 (class 0 OID 0)
+-- TOC entry 3380 (class 0 OID 0)
 -- Dependencies: 219
--- Name: bookings_booking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.bookings_booking_id_seq', 1, false);
-
-
---
--- TOC entry 3395 (class 0 OID 0)
--- Dependencies: 221
 -- Name: rooming_list_bookings_rooming_list_booking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.rooming_list_bookings_rooming_list_booking_id_seq', 1, false);
+SELECT pg_catalog.setval('public.rooming_list_bookings_rooming_list_booking_id_seq', 209, true);
 
 
---
--- TOC entry 3396 (class 0 OID 0)
--- Dependencies: 217
--- Name: rooming_lists_rooming_list_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.rooming_lists_rooming_list_id_seq', 1, false);
-
-
---
--- TOC entry 3228 (class 2606 OID 16529)
--- Name: bookings bookings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.bookings
-    ADD CONSTRAINT bookings_pkey PRIMARY KEY (booking_id);
-
-
---
--- TOC entry 3230 (class 2606 OID 16536)
--- Name: rooming_list_bookings rooming_list_bookings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.rooming_list_bookings
-    ADD CONSTRAINT rooming_list_bookings_pkey PRIMARY KEY (rooming_list_booking_id);
-
-
---
--- TOC entry 3232 (class 2606 OID 16538)
--- Name: rooming_list_bookings rooming_list_bookings_rooming_list_id_booking_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.rooming_list_bookings
-    ADD CONSTRAINT rooming_list_bookings_rooming_list_id_booking_id_key UNIQUE (rooming_list_id, booking_id);
-
-
---
--- TOC entry 3226 (class 2606 OID 16522)
--- Name: rooming_lists rooming_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.rooming_lists
-    ADD CONSTRAINT rooming_lists_pkey PRIMARY KEY (rooming_list_id);
-
-
---
--- TOC entry 3233 (class 2606 OID 16544)
--- Name: rooming_list_bookings rooming_list_bookings_booking_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.rooming_list_bookings
-    ADD CONSTRAINT rooming_list_bookings_booking_id_fkey FOREIGN KEY (booking_id) REFERENCES public.bookings(booking_id);
-
-
---
--- TOC entry 3234 (class 2606 OID 16539)
--- Name: rooming_list_bookings rooming_list_bookings_rooming_list_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.rooming_list_bookings
-    ADD CONSTRAINT rooming_list_bookings_rooming_list_id_fkey FOREIGN KEY (rooming_list_id) REFERENCES public.rooming_lists(rooming_list_id);
-
-
--- Completed on 2025-07-03 14:50:25
+-- Completed on 2025-07-05 17:12:25
 
 --
 -- PostgreSQL database dump complete

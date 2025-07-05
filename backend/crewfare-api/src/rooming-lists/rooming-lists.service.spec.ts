@@ -52,7 +52,7 @@ describe('RoomingListsService', () => {
 
   describe('create', () => {
     it('should create a rooming list', async () => {
-      const createRoomingListDto = { event_id: 1, hotel_id: 1, rfp_name: 'Test RFP', cut_off_date: new Date(), status: 'Open', agreement_type: 'Type A' };
+      const createRoomingListDto = { event_id: 1, event_name: "Fun Event", hotel_id: 1, rfp_name: 'Test RFP', cut_off_date: new Date(), status: 'Open', agreement_type: 'Type A' };
       const expectedRoomingList = { rooming_list_id: 1, ...createRoomingListDto };
 
       jest.spyOn(roomingListsRepository, 'create').mockReturnValue(expectedRoomingList as RoomingList);
@@ -127,8 +127,8 @@ describe('RoomingListsService', () => {
   describe('importAll', () => {
     it('should clear existing data and import new rooming lists', async () => {
       const createRoomingListDtos = [
-        { event_id: 1, hotel_id: 1, rfp_name: 'New RFP 1', cut_off_date: new Date(), status: 'Open', agreement_type: 'Type A' },
-        { event_id: 2, hotel_id: 2, rfp_name: 'New RFP 2', cut_off_date: new Date(), status: 'Closed', agreement_type: 'Type B' },
+        { event_id: 1, event_name: "Fun Event", hotel_id: 1, rfp_name: 'New RFP 1', cut_off_date: new Date(), status: 'Open', agreement_type: 'Type A' },
+        { event_id: 2, event_name: "Fun Event", hotel_id: 2, rfp_name: 'New RFP 2', cut_off_date: new Date(), status: 'Closed', agreement_type: 'Type B' },
       ];
       const expectedRoomingLists = createRoomingListDtos.map((dto, index) => ({ rooming_list_id: index + 1, ...dto }));
 

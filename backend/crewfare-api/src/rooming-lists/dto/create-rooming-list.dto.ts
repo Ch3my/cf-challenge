@@ -1,5 +1,5 @@
 export class CreateRoomingListDto {
-  rooming_list_id: number;
+  rooming_list_id?: number;
   event_id: number;
   hotel_id: number;
   rfp_name: string;
