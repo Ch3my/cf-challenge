@@ -12,6 +12,8 @@ const CustomScrollContainer: React.FC<CustomScrollContainerProps> = ({ children,
   const [clientWidth, setClientWidth] = useState(0);
   const [thumbWidth, setThumbWidth] = useState(0);
   const [thumbLeft, setThumbLeft] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartRef = useRef<{ startX: number; initialThumbLeft: number } | null>(null);
 
   // Function to update scrollbar thumb position and size
   const updateScrollThumb = () => {
@@ -53,11 +55,65 @@ const CustomScrollContainer: React.FC<CustomScrollContainerProps> = ({ children,
       }
 
       return () => {
-        currentRef.removeEventListener('scroll', updateScrollThumb);
+        if (currentRef) {
+            currentRef.removeEventListener('scroll', updateScrollThumb);
+        }
         resizeObserver.disconnect();
       };
     }
   }, [children]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    e.preventDefault();
+    setIsDragging(true);
+    dragStartRef.current = {
+      startX: e.clientX,
+      initialThumbLeft: thumbLeft,
+    };
+    document.body.style.userSelect = 'none';
+    if (scrollRef.current) {
+      scrollRef.current.style.scrollBehavior = 'auto'; // Disable smooth scrolling during drag
+    }
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging || !dragStartRef.current || !scrollRef.current) return;
+
+      const { scrollWidth, clientWidth } = scrollRef.current;
+      const maxThumbLeft = Math.max(0, clientWidth - thumbWidth);
+      const scrollableDistance = scrollWidth - clientWidth;
+
+      const dx = e.clientX - dragStartRef.current.startX;
+      let newThumbLeft = dragStartRef.current.initialThumbLeft + dx;
+
+      newThumbLeft = Math.max(0, Math.min(newThumbLeft, maxThumbLeft));
+
+      if (scrollableDistance > 0 && maxThumbLeft > 0) {
+        const newScrollLeft = (newThumbLeft / maxThumbLeft) * scrollableDistance;
+        scrollRef.current.scrollLeft = newScrollLeft;
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      document.body.style.userSelect = '';
+      if (scrollRef.current) {
+        scrollRef.current.style.scrollBehavior = 'smooth'; // Re-enable smooth scrolling
+      }
+    };
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, thumbWidth, thumbLeft]);
 
   // Determine if the scrollbar should be shown
   const showScrollbar = scrollWidth > clientWidth;
@@ -80,11 +136,12 @@ const CustomScrollContainer: React.FC<CustomScrollContainerProps> = ({ children,
       {showScrollbar && (
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200 rounded-full my-2">
           <div
-            className="absolute top-1/2 -translate-y-1/2 bg-gray-300 rounded-md h-4 flex justify-around items-center" // Added flex, justify-around, items-center
+            onMouseDown={handleMouseDown}
+            className="absolute top-1/2 -translate-y-1/2 bg-gray-300 rounded-md h-4 flex justify-around items-center cursor-pointer"
             style={{
               width: `${thumbWidth}px`,
               left: `${thumbLeft}px`,
-              transition: 'left 0.1s ease-out',
+              transition: isDragging ? 'none' : 'left 0.1s ease-out',
             }}
           >
             {/* These are the three "holes" */}
