@@ -50,8 +50,8 @@ const EventCard: React.FC<EventCardProps> = memo(({
                     </span>
                 </div>
                 <div className='flex flex-col items-center'>
-                    <div className="bg-blue-100 rounded-md text-center w-12">
-                        <div className="text-xs py-0.5 text-blue-600 bg-blue-200 rounded-t-md font-semibold">{cutOffMonth}</div>
+                    <div className="bg-blue-50 rounded-md text-center w-12">
+                        <div className="text-xs py-0 text-blue-600 bg-blue-200 rounded-t-md font-semibold">{cutOffMonth}</div>
                         <div className="text-lg py-1 font-bold text-blue-600 leading-none">{cutOffDay}</div>
                     </div>
                     <span className='text-xs text-gray-500 mt-1'>Cut-Off Date</span>

@@ -39,7 +39,7 @@ const EventDivider: React.FC<Props> = memo(({ eventName, colorIndex = 0 }) => {
   return (
     <div className="flex items-center justify-center gap-4 mb-4">
       <div className={`flex-1 h-0.5 ${style.gradientLeft}`} />
-      <div className={`px-3 py-1 border ${style.border} ${style.text} font-bold rounded-md ${style.bg}`}>
+      <div className={`px-3 py-1 border-2 ${style.border} ${style.text} font-bold rounded-md ${style.bg}`}>
         {eventName}
       </div>
       <div className={`flex-1 h-0.5 ${style.gradientRight}`} />
