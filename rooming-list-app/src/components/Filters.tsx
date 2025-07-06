@@ -1,10 +1,10 @@
 import { SlidersHorizontal } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import useStore from '../stores/UseStore';
 import useOutsideClick from '../hooks/useOutsideClick';
 
 // Main App component
-const Filters = () => {
+const Filters: React.FC = memo(() => {
     // State to manage the visibility of the filter dropdown
     const [isOpen, setIsOpen] = useState(false);
     // Get filters and setFilters from the store
@@ -12,23 +12,23 @@ const Filters = () => {
     const setFilters = useStore((state) => state.setFilters);
 
     // Function to toggle the filter dropdown visibility
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
+    const toggleDropdown = useCallback(() => {
+        setIsOpen(prev => !prev);
+    }, []);
 
     // Function to handle checkbox changes
-    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCheckboxChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = event.target;
         setFilters({
             ...activeFilters,
             [name]: checked,
         });
-    };
+    }, [activeFilters, setFilters]);
 
     // Function to handle the save action
-    const handleSave = () => {
+    const handleSave = useCallback(() => {
         setIsOpen(false); // Close the dropdown after saving
-    };
+    }, []);
 
     const ref = useOutsideClick(() => {
         setIsOpen(false);
@@ -100,6 +100,6 @@ const Filters = () => {
             )}
         </div>
     );
-};
+});
 
 export default Filters;

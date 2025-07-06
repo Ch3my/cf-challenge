@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const colorStyles = {
   teal: {
@@ -32,7 +32,7 @@ interface Props {
   colorIndex?: number;
 }
 
-const EventDivider: React.FC<Props> = ({ eventName, colorIndex = 0 }) => {
+const EventDivider: React.FC<Props> = memo(({ eventName, colorIndex = 0 }) => {
   const colorKey = colorList[colorIndex % colorList.length];
   const style = colorStyles[colorKey];
 
@@ -45,6 +45,6 @@ const EventDivider: React.FC<Props> = ({ eventName, colorIndex = 0 }) => {
       <div className={`flex-1 h-0.5 ${style.gradientRight}`} />
     </div>
   );
-};
+});
 
 export default EventDivider;

@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useState, useCallback, memo } from "react";
 import { importData } from "../lib/api";
 type ImportBtnProps = {
   onImportDone: (success: boolean) => void;
 };
 
-const ImportBtn = ({ onImportDone }: ImportBtnProps) => {
+const ImportBtn: React.FC<ImportBtnProps> = memo(({ onImportDone }) => {
   const [loading, setLoading] = useState(false);
-  const onClickBtn = async () => {
+  const onClickBtn = useCallback(async () => {
     setLoading(true);
     const response = await importData();
     onImportDone(response.success); // ✅ Notify parent
     setLoading(false);
-  };
+  }, [onImportDone]);
 
   return (
     <button
@@ -33,6 +33,6 @@ const ImportBtn = ({ onImportDone }: ImportBtnProps) => {
       {loading ? "Importing..." : "Insert Bookings and Rooming Lists"}
     </button>
   );
-};
+});
 
 export default ImportBtn;

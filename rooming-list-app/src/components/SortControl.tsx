@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useCallback, memo } from 'react';
 import { ArrowUpNarrowWide, ArrowDownWideNarrow } from 'lucide-react';
 import useStore from '../stores/UseStore';
 
-const SortControl: React.FC = () => {
+const SortControl: React.FC = memo(() => {
     const sortOption = useStore((state) => state.sortOption);
     const setSortOption = useStore((state) => state.setSortOption);
 
-    const toggleSortDirection = () => {
+    const toggleSortDirection = useCallback(() => {
         setSortOption({
             key: 'cutOffDate',
             direction: sortOption.direction === 'asc' ? 'desc' : 'asc',
         });
-    };
+    }, [sortOption, setSortOption]);
 
     return (
         <button
@@ -26,6 +26,6 @@ const SortControl: React.FC = () => {
             )}
         </button>
     );
-};
+});
 
 export default SortControl;

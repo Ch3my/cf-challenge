@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Search } from 'lucide-react';
 
 import useStore from '../stores/UseStore';
@@ -7,7 +7,7 @@ interface SearchInputWithDebounceProps {
     onSearch?: (query: string) => void;
 }
 
-const SearchInputWithDebounce: React.FC<SearchInputWithDebounceProps> = ({ onSearch }) => {
+const SearchInputWithDebounce: React.FC<SearchInputWithDebounceProps> = memo(({ onSearch }) => {
     const globalSearchTerm = useStore((state) => state.searchTerm);
     const setGlobalSearchTerm = useStore((state) => state.setSearchTerm);
     
@@ -52,6 +52,6 @@ const SearchInputWithDebounce: React.FC<SearchInputWithDebounceProps> = ({ onSea
             />
         </div>
     );
-};
+});
 
 export default SearchInputWithDebounce;

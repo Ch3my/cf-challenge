@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Calendar, FileSearch } from 'lucide-react';
 import { DateTime } from 'luxon';
 import { fetchBookingsByRoomingListId } from '../lib/api';
@@ -14,7 +14,7 @@ type EventCardProps = {
     event_end?: string;   // optional: ISO date
 };
 
-const EventCard: React.FC<EventCardProps> = ({
+const EventCard: React.FC<EventCardProps> = memo(({
     rooming_list_id,
     rfp_name,
     cut_off_date,
@@ -74,6 +74,6 @@ const EventCard: React.FC<EventCardProps> = ({
             </div>
         </div>
     );
-};
+});
 
 export default EventCard;
