@@ -32,7 +32,7 @@ services:
       context: ./rooming-list-app
       dockerfile: Dockerfile
       args: # <--- Use 'args' for build-time variables
-        VITE_API_URL: http://localhost:3000/api
+        VITE_API_URL: http://localhost:3000
     restart: always
     ports:
       - "4173:4173" 
