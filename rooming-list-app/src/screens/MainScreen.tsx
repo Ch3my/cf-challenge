@@ -6,6 +6,7 @@ import ImportBtn from "../components/ImportBtn";
 import EventCard from "../components/EventCard";
 import useStore from "../stores/UseStore";
 import SortControl from "../components/SortControl";
+import EventTitle from "../components/EventTitle";
 
 const MainScreen = () => {
     const [data, setData] = useState<any>([]);
@@ -61,9 +62,6 @@ const MainScreen = () => {
                         received: "active",
                         completed: "closed",
                         archived: "canceled",
-                        // active: "received",
-                        // closed: "completed",
-                        // canceled: "archived",
                     };
                     const mappedStatus = statusMap[roomingList.status.toLowerCase()] || roomingList.status.toLowerCase();
                     return selectedStatuses.includes(mappedStatus);
@@ -102,15 +100,9 @@ const MainScreen = () => {
                     <SortControl />
                     <ImportBtn onImportDone={handleImportDone} />
                 </div>
-                {filteredAndSortedData.map((event: any) => (
+                {filteredAndSortedData.map((event: any, index: number) => (
                     <div key={event.event_id}>
-                        <div className="flex items-center justify-center gap-4 mb-4">
-                            <div className="flex-1 h-px bg-gradient-to-l from-teal-400/50 to-transparent" />
-                            <div className="px-3 py-1 border border-teal-400 text-teal-600 font-semibold rounded-md bg-teal-100">
-                                {event.event_name}
-                            </div>
-                            <div className="flex-1 h-px bg-gradient-to-r from-teal-400/50 to-transparent" />
-                        </div>
+                        <EventTitle eventName={event.event_name} colorIndex={index} />
                         <div className="flex gap-4 overflow-x-auto pb-2">
                             {event.rooming_lists.map((o: any) => (
                                 <div key={o.rooming_list_id}>
