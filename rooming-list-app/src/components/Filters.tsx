@@ -1,6 +1,7 @@
 import { SlidersHorizontal } from 'lucide-react';
 import { useState } from 'react';
 import useStore from '../stores/UseStore';
+import useOutsideClick from '../hooks/useOutsideClick';
 
 // Main App component
 const Filters = () => {
@@ -29,8 +30,12 @@ const Filters = () => {
         setIsOpen(false); // Close the dropdown after saving
     };
 
+    const ref = useOutsideClick(() => {
+        setIsOpen(false);
+    });
+
     return (
-        <div className="relative">
+        <div className="relative" ref={ref}>
             {/* Filters button */}
             <button
                 onClick={toggleDropdown}

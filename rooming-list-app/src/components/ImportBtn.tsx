@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { importData } from "../lib/api";
 type ImportBtnProps = {
   onImportDone: (success: boolean) => void;
 };
 
 const ImportBtn = ({ onImportDone }: ImportBtnProps) => {
+  const [loading, setLoading] = useState(false);
   const onClickBtn = async () => {
+    setLoading(true);
     const response = await importData();
     onImportDone(response.success); // ✅ Notify parent
+    setLoading(false);
   };
 
   return (
@@ -21,10 +25,12 @@ const ImportBtn = ({ onImportDone }: ImportBtnProps) => {
         rounded-md
         focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75
         transition-colors duration-200 ease-in-out
+        disabled:opacity-50 disabled:cursor-not-allowed
       "
       onClick={onClickBtn}
+      disabled={loading}
     >
-      Insert Bookings and Rooming Lists
+      {loading ? "Importing..." : "Insert Bookings and Rooming Lists"}
     </button>
   );
 };

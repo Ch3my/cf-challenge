@@ -7,6 +7,7 @@ import EventCard from "../components/EventCard";
 import useStore from "../stores/UseStore";
 import SortControl from "../components/SortControl";
 import EventTitle from "../components/EventTitle";
+import CustomScrollContainer from "../components/CustomScrollContainer";
 
 const MainScreen = () => {
     const [data, setData] = useState<any>([]);
@@ -103,7 +104,7 @@ const MainScreen = () => {
                 {filteredAndSortedData.map((event: any, index: number) => (
                     <div key={event.event_id}>
                         <EventTitle eventName={event.event_name} colorIndex={index} />
-                        <div className="flex gap-4 overflow-x-auto pb-2">
+                        <CustomScrollContainer className="pb-6">
                             {event.rooming_lists.map((o: any) => (
                                 <div key={o.rooming_list_id}>
                                     <EventCard
@@ -118,7 +119,7 @@ const MainScreen = () => {
                                     />
                                 </div>
                             ))}
-                        </div>
+                        </CustomScrollContainer>
                     </div>
                 ))}
             </div>
