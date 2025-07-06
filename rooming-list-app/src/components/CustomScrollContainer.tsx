@@ -137,7 +137,7 @@ const CustomScrollContainer: React.FC<CustomScrollContainerProps> = ({ children,
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200 rounded-full my-2">
           <div
             onMouseDown={handleMouseDown}
-            className="absolute top-1/2 -translate-y-1/2 bg-gray-300 rounded-md h-4 flex justify-around items-center cursor-pointer"
+            className="absolute top-1/2 -translate-y-1/2 bg-gray-300 rounded-md h-4 flex justify-center gap-6 items-center cursor-pointer"
             style={{
               width: `${thumbWidth}px`,
               left: `${thumbLeft}px`,

@@ -68,7 +68,7 @@ const EventCard: React.FC<EventCardProps> = ({
                 >
                     View Bookings ({booking_count})
                 </button>
-                <button className='flex items-center justify-center border rounded-md border-gray-200 hover:bg-gray-50'>
+                <button className='flex items-center justify-center border-2 rounded-md border-[#4323ff] hover:bg-gray-50'>
                     <FileSearch color='#4323ff' />
                 </button>
             </div>
