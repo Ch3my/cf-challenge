@@ -29,11 +29,11 @@ services:
     build:
       context: ./rooming-list-app
       dockerfile: Dockerfile
+      args: # <--- Use 'args' for build-time variables
+        VITE_API_URL: http://api:3000/api
     restart: always
-    environment:
-      VITE_API_URL: http://api:3000/api
     ports:
-      - "4173:4173" # Assuming Vite's default port is 5173
+      - "4173:4173" 
     depends_on:
       - api
 
