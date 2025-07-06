@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, type ChangeEvent } from 'react';
+import React, { useEffect, useRef, type ChangeEvent } from 'react';
 import { Search } from 'lucide-react';
 
 import useStore from '../stores/UseStore';
@@ -8,7 +8,6 @@ interface SearchInputWithDebounceProps {
 }
 
 const SearchInputWithDebounce: React.FC<SearchInputWithDebounceProps> = ({ onSearch }) => {
-    const setSearchTermInStore = useStore((state) => state.setSearchTerm);
     const searchTerm = useStore((state) => state.searchTerm);
     const setSearchTerm = useStore((state) => state.setSearchTerm);
 

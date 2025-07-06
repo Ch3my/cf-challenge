@@ -5,4 +5,4 @@ RUN npm install
 COPY . .
 RUN npm run build
 CMD ["npm", "run", "preview"]
-EXPOSE 5173
+EXPOSE 4173
